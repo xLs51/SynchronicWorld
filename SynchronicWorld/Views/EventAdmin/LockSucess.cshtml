@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Lock event";
+    HttpCookie cookie = Request.Cookies["User"];
+
+    if (cookie == null || cookie.Values["Role"] != "1")
+    {
+        Response.Redirect(Url.Action("Index", "Home"));
+    }
+}
+
+<h2>Lock event</h2>
+<p>
+    The event has been locked successfully.
+</p>
+

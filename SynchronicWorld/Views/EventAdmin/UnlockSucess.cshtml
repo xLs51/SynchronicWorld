@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Unlock event";
+    HttpCookie cookie = Request.Cookies["User"];
+
+    if (cookie == null || cookie.Values["Role"] != "1")
+    {
+        Response.Redirect(Url.Action("Index", "Home"));
+    }
+}
+
+<h2>Unlock event</h2>
+<p>
+    The event has been unlocked successfully.
+</p>
+

@@ -1,0 +1,47 @@
+﻿@model SynchronicWorld.Models.MyFriendModel
+
+@{
+    ViewBag.Title = "My friends";
+    HttpCookie cookie = Request.Cookies["User"];
+
+    if (cookie == null)
+    {
+        Response.Redirect(Url.Action("Index", "Home"));
+    }
+}
+
+<h2>My friends</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Username
+        </th>
+        <th>
+            Last Name
+        </th>
+        <th>
+            First Name
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var user in Model.ListUsers)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => user.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = user.UserId })
+            </td>
+        </tr>
+    }
+
+</table>

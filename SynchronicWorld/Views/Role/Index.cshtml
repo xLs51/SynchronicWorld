@@ -1,0 +1,38 @@
+﻿@model IEnumerable<SynchronicWorld.Models.Role>
+
+@{
+    ViewBag.Title = "Role";
+    HttpCookie cookie = Request.Cookies["User"];
+
+    if (cookie == null || cookie.Values["Role"] != "1")
+    {
+        Response.Redirect(Url.Action("Index", "Home"));
+    }
+}
+
+<h2>Role</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RoleId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RoleId })
+        </td>
+    </tr>
+}
+
+</table>

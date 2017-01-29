@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Edit profile";
+    HttpCookie cookie = Request.Cookies["User"];
+
+    if (cookie == null)
+    {
+        Response.Redirect(Url.Action("Index", "Home"));
+    }
+}
+
+<h2>Edit profile</h2>
+<p>
+    Your profile has been modified successfully.
+</p>
+

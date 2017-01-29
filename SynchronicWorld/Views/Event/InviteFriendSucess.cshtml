@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Invite friends";
+    HttpCookie cookie = Request.Cookies["User"];
+
+    if (cookie == null)
+    {
+        Response.Redirect(Url.Action("Index", "Home"));
+    }
+}
+
+<h2>Invite friends</h2>
+<p>
+    Your friends has been invited successfully.
+</p>
+

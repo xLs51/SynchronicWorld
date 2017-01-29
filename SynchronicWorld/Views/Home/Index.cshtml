@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Welcome";
+    HttpCookie cookie = Request.Cookies["User"];
+
+    if (cookie == null)
+    {
+        <h2>Welcome</h2>
+
+        <div class="jumbotron">
+            <h1>SynchronicWorld</h1>
+            <p class="lead">Discover the Proof of Concept of a new product inspired by a world famous social network !</p>
+            <p><a class="btn btn-lg btn-success" href="/Account/Register" role="button">Sign up today</a></p>
+        </div>
+    }
+    else
+    {
+        <h2>Welcome</h2>
+
+        <div class="jumbotron">
+            <h1>SynchronicWorld</h1>
+            <p class="lead">Let's try our website and find friends and invite them to your events !</p>
+            <p><a class="btn btn-lg btn-success" href="/FindFriend" role="button">Find frends</a></p>
+        </div>
+    }
+}
+
+

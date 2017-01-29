@@ -1,0 +1,82 @@
+﻿@model SynchronicWorld.Models.InviteFriendModel
+
+@{
+    ViewBag.Title = "Invite friends";
+    HttpCookie cookie = Request.Cookies["User"];
+
+    if (cookie == null)
+    {
+        Response.Redirect(Url.Action("Index", "Home"));
+    }
+}
+
+<h2>Invite friends</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Friends</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        
+        <table class="table">
+            <tr>
+                <th>
+                    Username
+                </th>
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    First Name
+                </th>
+                <th>
+                    Invited
+                </th>
+            </tr>
+            @{
+                int i = 0;
+                foreach (var user in Model.ListUsersInvited)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => user.Username)
+                            <input type="hidden" name="[@i].UserId" value="@user.UserId" />
+                            <input type="hidden" name="[@i].Username" value="@user.Username" />
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => user.LastName)
+                            <input type="hidden" name="[@i].LastName" value="@user.LastName" />
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => user.Name)
+                            <input type="hidden" name="[@i].Name" value="@user.Name" />
+
+                        </td>
+                        <td>
+                            <input name="[@i].Invited" type="checkbox" value="true" /><input name="[@i].Invited" type="hidden" value="false" />
+
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
+        </table>
+
+        @{
+            if (Model.ListUsersInvited.Count != 0)
+            {
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Invite" class="btn btn-primary" />
+                    </div>
+                </div>
+            }
+        }
+        
+    </div>
+}

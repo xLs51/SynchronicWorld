@@ -1,0 +1,217 @@
+﻿@using SynchronicWorld.Models
+@model IEnumerable<SynchronicWorld.Models.Event>
+
+@{
+    ViewBag.Title = "Event";
+    HttpCookie cookie = Request.Cookies["User"];
+
+    if (cookie == null || cookie.Values["Role"] != "1")
+    {
+        Response.Redirect(Url.Action("Index", "Home"));
+    }
+}
+
+<h2>Event</h2>
+
+<p>
+    Pending Event
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeEvent.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            Creator
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var db = new SynchronicWorldDbContext();
+        var creator = db.Users.Find(item.CreatorId);
+        var creatorName = creator.LastName + " " + creator.Name;
+        if (item.Status == "Pending")
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TypeEvent.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @(creatorName)
+                </td>
+                <td>
+                    @Html.ActionLink("Validate", "Validate", new { id = item.EventId })
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+<p>
+    Event
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeEvent.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            Creator
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var db = new SynchronicWorldDbContext();
+        var creator = db.Users.Find(item.CreatorId);
+        var creatorName = creator.LastName + " " + creator.Name;
+        if (item.Status != "Closed" && item.Status != "Pending")
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TypeEvent.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @(creatorName)
+                </td>
+                <td>
+                    @{
+                        if (item.Status != "Lock")
+                        {
+                            @Html.ActionLink("Lock", "Lock", new { id = item.EventId })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Unlock", "Unlock", new { id = item.EventId })
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+<p>
+    Closed Event
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeEvent.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            Creator
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var db = new SynchronicWorldDbContext();
+        var creator = db.Users.Find(item.CreatorId);
+        var creatorName = creator.LastName + " " + creator.Name;
+        if (item.Status == "Closed")
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TypeEvent.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @(creatorName)
+                </td>
+            </tr>
+        }
+    }
+</table>

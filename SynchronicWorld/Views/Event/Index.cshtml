@@ -1,0 +1,101 @@
+﻿@using SynchronicWorld.Models
+@model IEnumerable<SynchronicWorld.Models.Event>
+
+@{
+    ViewBag.Title = "Event";
+    HttpCookie cookie = Request.Cookies["User"];
+
+    if (cookie == null)
+    {
+        Response.Redirect(Url.Action("Index", "Home"));
+    }
+    else
+    {
+        ViewBag.Userid = cookie["UserId"];
+    }
+}
+
+<h2>Event</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeEvent.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            Creator
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    var db = new SynchronicWorldDbContext();
+    var creator = db.Users.Find(item.CreatorId);
+    String creatorName = creator.LastName + " " + creator.Name;
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeEvent.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @(creatorName)
+        </td>
+        <td>
+            @{
+                if (item.Status == "Open")
+                {
+                    @Html.ActionLink("Invite friends", "InviteFriend", new {id = item.EventId})
+                    @:|
+                    @Html.ActionLink("Contribute", "AddContribution", new { id = item.EventId })
+                    @:|
+                }
+               
+                @Html.ActionLink("Participant", "Participant", new {id = item.EventId})
+                @:|
+                @Html.ActionLink("Details", "Details", new {id = item.EventId})
+                
+                if (creator.UserId == int.Parse(ViewBag.Userid))
+                {
+                    @:|
+                    @Html.ActionLink("Edit", "Edit", new {id = item.EventId})
+                    @:|
+                    @Html.ActionLink("Delete", "Delete", new {id = item.EventId})
+                }
+            }
+        </td>
+    </tr>
+}
+
+</table>

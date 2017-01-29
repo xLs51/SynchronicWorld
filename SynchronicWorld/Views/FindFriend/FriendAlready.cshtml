@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Add friend";
+    HttpCookie cookie = Request.Cookies["User"];
+
+    if (cookie == null)
+    {
+        Response.Redirect(Url.Action("Index", "Home"));
+    }
+}
+
+<h2>Add friend</h2>
+<p>
+    He is already in your friend !
+</p>
+

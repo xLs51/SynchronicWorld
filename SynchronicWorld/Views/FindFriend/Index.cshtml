@@ -1,0 +1,73 @@
+﻿@model SynchronicWorld.Models.FindFriendModel
+
+@{
+    ViewBag.Title = "Find a friend";
+    HttpCookie cookie = Request.Cookies["User"];
+
+    if (cookie == null)
+    {
+        Response.Redirect(Url.Action("Index", "Home"));
+    }
+}
+
+<h2>Find a friend</h2>
+
+<p>
+    Find your friend using his nickname or his name !
+</p>
+
+@using (Html.BeginForm())
+{
+    <div>
+        <div class="form-group">
+            @Html.TextBoxFor(m => m.FriendSearch)
+            @Html.DropDownListFor(m => m.TypeSearch, new SelectList(new[] { "Nickname", "Name" }))
+        </div>
+
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </div>
+}
+<br/>
+<table class="table">
+    <tr>
+        <th>
+            Username
+        </th>
+        <th>
+            Last Name
+        </th>
+        <th>
+            First Name
+        </th>
+        <th></th>
+    </tr>
+    @{
+        try
+        {
+            foreach (var user in Model.ListUsers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => user.Username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => user.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => user.Name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Ajouter", "Add", new { id = user.UserId })
+                    </td>
+                </tr>
+                
+            }
+
+            throw new NullReferenceException();
+        }
+        catch (NullReferenceException e)
+        {
+            Console.WriteLine("{0} Caught exception #1.", e);
+        }
+    }
+</table>
